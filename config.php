@@ -41,10 +41,10 @@ function display_photos($photo_array, $flickr_api_key) {
             $photo_owner = $photo['owner'];
     
             if (!empty($_POST['dpi']) && checkDPI($_POST['dpi'], $photo_id, $photo_secret, $flickr_api_key)) {
-                    echo "<a href='https://www.flickr.com/photos/$photo_owner/$photo_id' target='_blank'><img src='https://live.staticflickr.com/$server_id/" . $photo_id . "_" . "$photo_secret.jpg'></a>";
+                    echo "<a href='https://www.flickr.com/photos/$photo_owner/$photo_id' target='_blank'><img src='https://live.staticflickr.com/$server_id/" . $photo_id . "_" . "$photo_secret" . "_n.jpg'></a>";
                     $result = true;
             } if (isset($_POST['search_term']) && empty($_POST['dpi'])) {
-                echo "<a href='https://www.flickr.com/photos/$photo_owner/$photo_id' target='_blank'><img src='https://live.staticflickr.com/$server_id/" . $photo_id . "_" . "$photo_secret.jpg'></a>";
+                echo "<a href='https://www.flickr.com/photos/$photo_owner/$photo_id' target='_blank'><img src='https://live.staticflickr.com/$server_id/" . $photo_id . "_" . "$photo_secret" . "_n.jpg'></a>";
                 $result = true;
             }
         }
