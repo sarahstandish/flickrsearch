@@ -3,33 +3,41 @@
 include 'config.php';
 include 'keys.php';
 
-if (isset($_POST['search_term'])) {
+$license_error = "";
+$location_error = "";
+$post_array = "";
 
-    $search_term = urlencode($_POST['search_term']);
-    $latitude = '%00';
-    $longitude = '%00';
-    $licenses = '%00';
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if (!empty($_POST['location'])) {
+    // $post_array = $_POST;
 
-        $lat_and_lng = get_lat_and_lng($google_api_key, $_POST['location']);
-        $latitude = $lat_and_lng[0];
-        $longitude = $lat_and_lng[1];
+    if (empty($_POST['licenses'])) {
+        $license_error = "Please select at least once license.";
     }
 
-    if (isset($_POST['licenses'])) {
+    // if (empty($_POST['location'])) {
+    //     $location_error = "Please enter a location";
+    // }
 
+    if (isset($_POST['search_term']) && !empty($_POST['licenses'])) {
+
+        //lat, lon, and licenses can be passed to the api call without triggering an error if empty
+        $search_term = urlencode($_POST['search_term']);
+        $latitude = '%00';
+        $longitude = '%00';
         $licenses = implode(",", $_POST['licenses']);
 
-    }
+        //if a location is specified, pass it to the google maps api to get the latitude and longitude of the location
+        if (!empty($_POST['location'])) {
+
+            $lat_and_lng = get_lat_and_lng($google_api_key, $_POST['location']);
+            $latitude = $lat_and_lng[0];
+            $longitude = $lat_and_lng[1];
+        }
     
-    $flickr_url = "https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=$flickr_api_key&text=$search_term&content_type=1&per_page=500&format=json&nojsoncallback=1&sort=relevance&radius=32&lat=$latitude&lon=$longitude&license=$licenses";
+        $photo_array = get_photo_array($flickr_api_key, $search_term, $latitude, $longitude, $licenses);
 
-    $flickr_json = file_get_contents($flickr_url);
-
-    $flickr_array = json_decode($flickr_json, true);
-    $photo_array = $flickr_array['photos']['photo'];
-
+    }
 }
 
 ?>
@@ -42,13 +50,14 @@ if (isset($_POST['search_term'])) {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Syne:wght@400;500&display=swap" rel="stylesheet"> 
 </head>
 <body>
-    <form action="" method="post">
+    <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
         <label>Search term</label>
-            <input type="text" name="search_term" value="<?php if (isset($_POST['search_term'])) { echo $_POST['search_term']; } ?>">
+            <input type="text" name="search_term" value="<?php if (isset($_POST['search_term'])) { echo htmlspecialchars($_POST['search_term']); } ?>">
             <p class="explanation">Term to search on Flickr</p>
         <label>City</label>
-            <input type="text" name="location" value="<?php if (isset($_POST['location'])) { echo $_POST['location']; } ?>">
+            <input type="text" name="location" value="<?php if (isset($_POST['location'])) { echo htmlspecialchars($_POST['location']); } ?>">
             <p class="explanation">If specified, will return photos geotagged to within roughly 30km of the city center.</p>
+            <span class="error"><?php echo $location_error; ?></span>
         <label>Licenses</label>
             <ul>
                 <li><input type='checkbox' name="licenses[]" value="0" <?php echo defaultUnchecked(0) ?>>  All Rights Reserved  </li>
@@ -64,12 +73,14 @@ if (isset($_POST['search_term'])) {
                 <li><input type='checkbox' name="licenses[]" value="10" <?php echo defaultChecked(10) ?>>  Public Domain Mark<a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank">Learn more</a></li>
             </ul>
         <p class="explanation">Default selection will return images licensed for commercial use and modifications.</p>
+        <span class="error"><?php echo $license_error; ?></span>
         <label>Minimum DPI</label>
-            <input type="number" name="dpi" value="<?php if (isset($_POST['dpi'])) { echo $_POST['dpi']; } ?>">
+            <input type="number" name="dpi" value="<?php if (isset($_POST['dpi'])) { echo htmlspecialchars($_POST['dpi']); } ?>">
         <button type="submit">Submit</button>
     </form>
+    <p><?php print_r($post_array); ?></p>
     <div class="photos">
-        <?php if (isset($_POST['search_term'])) { display_photos($photo_array, $flickr_api_key); } ?>
+        <?php if (isset($_POST['search_term']) && !empty($_POST['licenses'])) { display_photos($photo_array, $flickr_api_key); } ?>
     </div>
 </body>
 </html>

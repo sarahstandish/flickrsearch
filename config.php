@@ -19,8 +19,17 @@ function get_lat_and_lng($google_api_key, $location) {
 
 }
 
-function display_photos($photo_array, $flickr_api_key) {
+function get_photo_array($flickr_api_key, $search_term, $latitude, $longitude, $licenses) {
+    $flickr_url = "https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=$flickr_api_key&text=$search_term&content_type=1&per_page=500&format=json&nojsoncallback=1&sort=relevance&radius=32&lat=$latitude&lon=$longitude&license=$licenses";
 
+    $flickr_json = file_get_contents($flickr_url);
+
+    $flickr_array = json_decode($flickr_json, true);
+    $photo_array = $flickr_array['photos']['photo'];
+    return $photo_array;
+}
+
+function display_photos($photo_array, $flickr_api_key) {
 
     if (empty($photo_array)) {
         $result = false;
@@ -78,9 +87,11 @@ function checkDPI($dpi, $photo_id, $photo_secret, $flickr_api_key) {
 
 
 function defaultChecked($n) {
-    if (isset($_POST['licenses']) && in_array($n, $_POST['licenses'])) {
+    if (!empty($_POST['licenses']) && in_array($n, $_POST['licenses'])) {
         return "checked='checked'";
-    } else if (isset($_POST['licenses']) && !in_array($n, $_POST['licenses'])) {
+    } else if (!empty($_POST['licenses']) && !in_array($n, $_POST['licenses'])) {
+        return "";
+    } else if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST['licenses'])) {
         return "";
     } else {
         return "checked='checked'";
