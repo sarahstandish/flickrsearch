@@ -1,8 +1,7 @@
 <?php
 
 include 'config.php';
-
-$flickr_api_key = '7441a4ff83fda0c1e35cbd7c4016210f';
+include 'keys.php';
 
 if (isset($_POST['search_term'])) {
 

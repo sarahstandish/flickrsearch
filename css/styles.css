@@ -121,9 +121,11 @@ label {
     color: var(--accent-color-1);
 }
 
-input[type=text], input[type=email] {
-    width: 100%;
+input[type=text], input[type=email], input[type=number] {
+    width: 50%;
     margin-bottom: 10px;
+    padding: 3px;
+    border-radius: 5px;
 }
 
 
