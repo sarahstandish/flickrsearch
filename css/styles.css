@@ -24,6 +24,9 @@ h1 {
 
 h2 {
     font-family: var(--title-font);
+    text-align: center;
+    margin: 0 auto;
+    padding: 10px;
 }
 
 p {

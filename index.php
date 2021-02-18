@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Syne:wght@400;500&display=swap" rel="stylesheet"> 
 </head>
 <body>
+    <h2>Flickr Search</h2>
     <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
         <label>Search term</label>
             <input type="text" name="search_term" value="<?php if (isset($_POST['search_term'])) { echo htmlspecialchars($_POST['search_term']); } ?>">
