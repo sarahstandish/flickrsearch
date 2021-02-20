@@ -30,9 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //if a location is specified, pass it to the google maps api to get the latitude and longitude of the location
         if (!empty($_POST['location'])) {
 
-            $lat_and_lng = get_lat_and_lng($google_api_key, $_POST['location']);
-            $latitude = $lat_and_lng[0];
-            $longitude = $lat_and_lng[1];
+            list($latitude, $longitude) = get_lat_and_lng($google_api_key, $_POST['location']);
         }
     
         $photo_array = get_photo_array($flickr_api_key, $search_term, $latitude, $longitude, $licenses);
