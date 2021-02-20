@@ -2,9 +2,9 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    --background-color: #EAEFD3;
+    --background-color: #edf6f9;
      /* Purple: #20063B;  */
-    --text-color: #488B49;
+    --text-color: #2e582e;
      /* #97949E; */
     --accent-color-1: #26547C;
     /* #074F57; */
@@ -169,6 +169,5 @@ form ul {
     font-family: var(--body-font);
     font-weight: bold;
 }
-
 
 
