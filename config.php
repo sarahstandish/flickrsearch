@@ -31,6 +31,8 @@ function get_photo_array($flickr_api_key, $search_term, $latitude, $longitude, $
 
 function display_photos($photo_array, $flickr_api_key) {
 
+    $result = false;
+
     if (empty($photo_array)) {
         $result = false;
     } else {

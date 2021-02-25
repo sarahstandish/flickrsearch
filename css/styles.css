@@ -170,4 +170,43 @@ form ul {
     font-weight: bold;
 }
 
+.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: white;
+    border: 1px solid var(--accent-color-1);
+    border-radius: 3px; 
+}
+
+.container:hover input ~ .checkmark {
+    background-color: gray;
+}
+
+.container input:checked ~ .checkmark {
+    background-color: var(--accent-color-1);
+}
+
 
