@@ -67,29 +67,6 @@ a:hover {
     color: var(--accent-color-1);
 }
 
-ul {
-    list-style: none;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-aside h2 {
-    padding-top: 20px;
-}
-
-aside li {
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-.focus {
-    width: 40%;
-    padding-bottom: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
-    font-size: 1.2em;
-}
-
 img {
     max-width: 32%;
     height: auto;
@@ -150,12 +127,6 @@ textarea {
     margin-bottom: 10px;
 }
 
-form ul {
-    margin-left: 20px;
-    list-style-type: none;
-    margin-bottom: 10px;
-    font-family: var(--body-font)
-}
 
 .box {
     width: 400px;
@@ -180,6 +151,9 @@ form ul {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    font-family: var(--body-font);
+    color: var(--text-color);
+    font-size: 1em;
 }
 
 .container input {
@@ -194,8 +168,8 @@ form ul {
     position: absolute;
     top: 0;
     left: 0;
-    height: 25px;
-    width: 25px;
+    height: 20px;
+    width: 20px;
     background-color: white;
     border: 1px solid var(--accent-color-1);
     border-radius: 3px; 
